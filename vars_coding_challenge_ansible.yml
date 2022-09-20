@@ -1,5 +1,4 @@
 ---
-
 tenants:
   - name: TN_prod
     description: "All production related objects"
