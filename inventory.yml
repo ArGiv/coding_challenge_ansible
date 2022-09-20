@@ -1,0 +1,13 @@
+apic:
+  hosts:
+  sandboxapicdc:
+    ansible_host: "sandboxapicdc.cisco.com"
+
+  vars:
+    ansible_user: "admin"
+    ansible_password: ""
+    ansible_httpapi_use_ssl: True
+    ansible_httpapi_validate_certs: False
+    ansible_network_os: "cisco"
+    connection: httpapi
+    ansible_python_interpreter: auto

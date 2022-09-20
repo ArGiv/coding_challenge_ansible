@@ -1,0 +1,10 @@
+---
+- name: Add a new tenant
+  cisco.aci.aci_tenant:
+    host: "sandboxapicdc.cisco.com"
+    username: "admin"
+    password: ""
+    tenant: "TN_prod"
+    description: "All production related objects"
+    state: present
+  delegate_to: localhost

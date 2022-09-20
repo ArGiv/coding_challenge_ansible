@@ -1,2 +1,20 @@
 ---
 # tasks file for setup_aci
+
+- name: "create tenants"
+  include_task: create_tenants.yml
+  
+# - name: "create application profiles"
+#   include_task: create_app_profiles.yml
+  
+# - name: "create endpoint groups"
+#   include_task: create_epgs.yml
+  
+# - name: "create bridge domains"
+#   include_task: create_bridge_domains.yml
+  
+# - name: "create contracts"
+#   include_task: create_contracts.yml
+  
+# - name: "create vrfs"
+#   include_task: create_vrfs.yml
