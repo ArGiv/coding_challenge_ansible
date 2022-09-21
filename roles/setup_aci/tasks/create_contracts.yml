@@ -1,0 +1,26 @@
+---
+- name: "Create contract '{{ contract.name }}' for tenant {{ tenant_name }}"
+  cisco.aci.aci_contract:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    contract: "{{ contract.name }}"
+    scope: "{{ contract.scope }}"
+    validate_certs: no
+    state: "present"
+
+- name: "Create contract subject"
+  cisco.aci.aci_contract_subject:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    contract: "{{ contract.name }}"
+    subject: "{{ contract_subject.name }}"
+    reverse_filter: "{%if  contract_subject.filter == 'default' %} yes {%else %} no {% endif %}"
+    validate_certs: no
+    state: "present"
+  loop: "{{ contract.subject }}"
+  loop_control:
+    loop_var: contract_subject

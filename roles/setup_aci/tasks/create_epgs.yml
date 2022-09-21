@@ -1,0 +1,28 @@
+---
+- name: "Create EPG '{{ epg.name }}'"
+  cisco.aci.aci_epg:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    ap: "{{ application_profile.name }}"
+    epg: "{{ epg.name }}"
+    bd: "{{ epg.bd }}"
+    validate_certs: no
+    state: present
+
+- name: "Add a new contract to EPG binding"
+  cisco.aci.aci_epg_to_contract:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    ap: "{{ ap_name }}"
+    epg: "{{ epg.name }}"
+    contract: "{{ contract.name }}"
+    contract_type: "{{ contract.type }}"
+    validate_certs: no
+    state: present
+  loop: "{{ epg.contracts }}"
+  loop_control:
+    loop_var: contract

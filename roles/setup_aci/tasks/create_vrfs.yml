@@ -1,0 +1,10 @@
+---
+- name: "Add VRF '{{ vrf.name }}'"
+  cisco.aci.aci_vrf:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant.name }}"
+    vrf: "{{ vrf.name }}"
+    validate_certs: no
+    state: present

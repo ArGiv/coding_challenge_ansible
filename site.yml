@@ -1,9 +1,7 @@
 - name: "Create basic ACI setup"
   hosts: "all"
-  # gather_facts: no
-  vars:
-    ansible_python_interpreter: auto
+  connection: local
+  gather_facts: no
 
   roles:
   - role: setup_aci
-    # tenant_name: "{{}}"

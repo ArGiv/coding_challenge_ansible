@@ -1,0 +1,21 @@
+---
+- name: "Add application profile '{{ application_profile.name }}'"
+  cisco.aci.aci_ap:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    ap: "{{ application_profile.name }}"
+    description: "{{ application_profile.description }}"
+    validate_certs: no
+    state: present
+    
+
+- name: "Create EPGs"
+  include_tasks: create_epgs.yml
+  vars:
+    tenant_name: "{{ tenant.name }}"
+    ap_name: "{{ application_profile.name }}"
+  loop: "{{ application_profile.epgs }}"
+  loop_control:
+    loop_var: epg

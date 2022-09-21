@@ -1,10 +1,42 @@
 ---
-- name: Add a new tenant
+- name: "Add tenant '{{ tenant.name }}'"
   cisco.aci.aci_tenant:
-    host: "sandboxapicdc.cisco.com"
-    username: "admin"
-    password: ""
-    tenant: "TN_prod"
-    description: "All production related objects"
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant.name }}"
+    description: "{{ tenant.description }}"
+    validate_certs: no
     state: present
-  delegate_to: localhost
+
+- name: "Create contracts"
+  include_tasks: create_contracts.yml
+  vars:
+    tenant_name: "{{ tenant.name }}"
+  loop: "{{ tenant.contracts }}"
+  loop_control:
+    loop_var: contract
+
+- name: "Create VRFs"
+  include_tasks: create_vrfs.yml
+  vars:
+    tenant_name: "{{ tenant.name }}"
+  loop: "{{ tenant.vrfs }}"
+  loop_control:
+    loop_var: vrf
+
+- name: "Create Bridge Domains"
+  include_tasks: create_bridge_domains.yml
+  vars:
+    tenant_name: "{{ tenant.name }}"
+  loop: "{{ tenant.bridge_domains }}"
+  loop_control:
+    loop_var: bridge_domain
+
+- name: "Create Applicaiton Profiles"
+  include_tasks: create_app_profiles.yml
+  vars:
+    tenant_name: "{{ tenant.name }}"
+  loop: "{{ tenant.application_profiles }}"
+  loop_control:
+    loop_var: application_profile

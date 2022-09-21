@@ -1,0 +1,28 @@
+---
+- name: "Add Bridge Domain '{{ bridge_domain.name }}'"
+  cisco.aci.aci_bd:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    bd: "{{ bridge_domain.name }}"
+    vrf: "{{ bridge_domain.vrf }}"
+    validate_certs: no
+    state: present
+
+- name: "Create a subnet"
+  cisco.aci.aci_bd_subnet:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    bd: "{{ bridge_domain.name }}"
+    gateway: "{{ subnet.name }}"
+    mask: "{{ subnet.mask }}"
+    validate_certs: no
+    state: present
+  loop: "{{ bridge_domain.subnets }}"
+  loop_control:
+    loop_var: subnet
+
+
