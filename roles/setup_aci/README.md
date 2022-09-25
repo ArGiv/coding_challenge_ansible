@@ -35,4 +35,4 @@ GNU GENERAL PUBLIC LICENSE
 Author Information
 ------------------
 
-Aria Givi <ariagivi@yahoo.de>
+Aria Givi
