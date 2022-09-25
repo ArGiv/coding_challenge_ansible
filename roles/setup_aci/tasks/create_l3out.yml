@@ -4,7 +4,7 @@
     host: "{{ ansible_host }}"
     username: "{{ ansible_user }}"
     password: "{{ ansible_password }}"
-    tenant: "{{ tenant.name }}"
+    tenant: "{{ tenant_name }}"
     vrf: "{{ l3out.vrf }}"
     name: "{{ l3out.name }}"
     domain: "{{ l3out.domain }}"
@@ -13,16 +13,88 @@
     validate_certs: no
     state: present
 
-# - name: Add a new node to a node profile
-#   cisco.aci.aci_l3out_logical_node:
-#     host: "{{ ansible_host }}"
-#     username: "{{ ansible_user }}"
-#     password: "{{ ansible_password }}"
-#     tenant: "{{ tenant.name }}"
-#     l3out: 
-#     node_profile: 
-#     pod_id: 
-#     node_id: 
-#     router_id: 
-#     validate_certs: no
-#     state: present
+- name: "Add a new node profile"
+  cisco.aci.aci_l3out_logical_node_profile:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    node_profile: "{{ l3out.node_profile }}"
+    l3out: "{{ l3out.name }}"
+    validate_certs: no
+    state: present
+  
+- name: "Add a new node to a node profile"
+  cisco.aci.aci_l3out_logical_node:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    node_profile: "{{ l3out.node_profile }}"
+    l3out: "{{ l3out.name }}"
+    pod_id: "{{ l3out.pod_id }}"
+    node_id: "{{ l3out.node_id }}"
+    router_id: "{{ l3out.router_id }}"
+    validate_certs: no
+    state: present
+
+- name: "Create static routes"
+  cisco.aci.aci_l3out_static_routes:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    l3out: "{{ l3out.name }}"
+    logical_node: "{{ l3out.node_profile }}"
+    node_id: "{{ l3out.node_id }}"
+    pod_id: "{{ l3out.pod_id }}"
+    prefix: "{{ l3out.prefix }}"
+    validate_certs: no
+
+- name: "Add a new nexthop to a prefix"
+  cisco.aci.aci_l3out_static_routes_nexthop:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    l3out: "{{ l3out.name }}"
+    node_profile: "{{ l3out.node_profile }}"
+    node_id: "{{ l3out.node_id }}"
+    pod_id: "{{ l3out.pod_id }}"
+    prefix: "{{ l3out.prefix }}"
+    nexthop: 10.1.1.1
+    state: present
+    validate_certs: no
+
+- name: "Add a new ExtEpg"
+  cisco.aci.aci_l3out_extepg:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    l3out: "{{ l3out.name }}"
+    name: "{{ l3out.extepg }}"
+    state: present
+    validate_certs: no
+
+- name: "Add a new External Subnet"
+  cisco.aci.aci_l3out_extsubnet:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    l3out: "{{ l3out.name }}"
+    extepg: "{{ l3out.extepg }}"
+    network: "{{ l3out.prefix }}"
+    state: present
+    validate_certs: no
+  
+- name: "Bind Bridge Domain to L3out"
+  cisco.aci.aci_bd_to_l3out:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant_name }}"
+    bd: "{{ l3out.bridge_domain }}"
+    l3out: "{{ l3out.name }}"
+    validate_certs: no
