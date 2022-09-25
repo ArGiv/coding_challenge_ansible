@@ -1,0 +1,28 @@
+---
+- name: "Add l3out configuration"
+  cisco.aci.aci_l3out:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    tenant: "{{ tenant.name }}"
+    vrf: "{{ l3out.vrf }}"
+    name: "{{ l3out.name }}"
+    domain: "{{ l3out.domain }}"
+    l3protocol: "{{ l3out.protocol }}"
+    route_control: "{{ l3out.route_control }}"
+    validate_certs: no
+    state: present
+
+# - name: Add a new node to a node profile
+#   cisco.aci.aci_l3out_logical_node:
+#     host: "{{ ansible_host }}"
+#     username: "{{ ansible_user }}"
+#     password: "{{ ansible_password }}"
+#     tenant: "{{ tenant.name }}"
+#     l3out: 
+#     node_profile: 
+#     pod_id: 
+#     node_id: 
+#     router_id: 
+#     validate_certs: no
+#     state: present

@@ -1,5 +1,8 @@
 ---
 # tasks file for setup_aci
+# - name: "configure fabric"
+#   include_tasks: configure_fabric.yml
+
 - name: "create tenants"
   include_tasks: create_tenants.yml
   loop: "{{ tenants }}"

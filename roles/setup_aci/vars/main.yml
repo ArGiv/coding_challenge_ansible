@@ -46,6 +46,12 @@ tenants:
         vrf: datacenter
     vrfs:
       - name: datacenter
+    l3outs:
+      - name: prod_l3out
+        vrf: datacenter
+        domain: external_routed_domain_l3out
+        protocol: static
+        route_control: import,export
     contracts:
       - name: C_internet
         scope: tenant
@@ -62,3 +68,11 @@ tenants:
         subject:
           - name: internet
             filter: default
+fabric:
+  vlan_pool: 
+    name: vlan_pool_l3out
+  domain:
+    name: external_routed_domain_l3out
+    type: l3dom
+  aep:
+    name: aep_l3out

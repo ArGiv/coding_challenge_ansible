@@ -5,7 +5,7 @@
     username: "{{ ansible_user }}"
     password: "{{ ansible_password }}"
     tenant: "{{ tenant_name }}"
-    ap: "{{ application_profile.name }}"
+    ap: "{{ ap_name }}"
     epg: "{{ epg.name }}"
     bd: "{{ epg.bd }}"
     validate_certs: no

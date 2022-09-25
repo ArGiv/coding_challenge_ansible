@@ -1,0 +1,52 @@
+---
+- name: Add a new VLAN pool
+  cisco.aci.aci_vlan_pool:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    pool: "{{ fabric.vlan_pool.name }}"
+    pool_allocation_mode: static
+    validate_certs: no
+    state: present
+
+- name: Add a new external routed domain
+  cisco.aci.aci_domain:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    domain: "{{ fabric.domain.name }}"
+    domain_type: "{{ fabric.domain.type }}"
+    validate_certs: no
+    state: present
+
+- name: Bind a external domain to VLAN pool
+  cisco.aci.aci_domain_to_vlan_pool:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    domain: "{{ fabric.domain.name }}"
+    domain_type: "{{ fabric.domain.type }}"
+    pool: "{{ fabric.vlan_pool.name }}"
+    pool_allocation_mode: static
+    validate_certs: no
+    state: present
+
+- name: Add a new AEP
+  cisco.aci.aci_aep:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    aep: "{{ fabric.aep.name }}"
+    validate_certs: no
+    state: present
+
+- name: Add AEP to domain binding
+  cisco.aci.aci_aep_to_domain:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    aep: "{{ fabric.aep.name }}"
+    domain: "{{ fabric.domain.name }}"
+    domain_type: "{{ fabric.domain.type }}"
+    validate_certs: no
+    state: present

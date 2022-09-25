@@ -18,7 +18,7 @@
     tenant: "{{ tenant_name }}"
     contract: "{{ contract.name }}"
     subject: "{{ contract_subject.name }}"
-    reverse_filter: "{%if  contract_subject.filter == 'default' %} yes {%else %} no {% endif %}"
+    reverse_filter: "{%if  contract_subject.filter == 'default' %} yes {% else %} no {% endif %}"
     validate_certs: no
     state: "present"
   loop: "{{ contract.subject }}"
